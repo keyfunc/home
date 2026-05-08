@@ -4,12 +4,10 @@ export default {
 
 		// 只代理 /api
 		if (url.pathname.startsWith("/api/")) {
-			const target = new URL(request.url);
+			const apiOrigin = env.API_ORIGIN || "https://api.keyfu.cc";
+			const target = new URL(`${url.pathname}${url.search}`, apiOrigin);
 
-			// 后端接口地址
-			target.hostname = "api.keyfu.cc";
-			target.protocol = "https:";
-			target.port = "";
+			// 保留 /api 前缀，代理到后端接口地址。
 
 			const headers = new Headers();
 			for (const name of ["accept", "authorization", "content-type"]) {
@@ -26,13 +24,24 @@ export default {
 					request.method === "GET" || request.method === "HEAD"
 						? undefined
 						: request.body,
-				redirect: "follow",
+				redirect: "manual",
 			});
 
 			const response = await fetch(proxyRequest);
+			const location = response.headers.get("location") || "";
+
+			if (location.includes("webblock.html")) {
+				return Response.json(
+					{
+						message: `${apiOrigin} redirected to webblock.html`,
+						location,
+					},
+					{ status: 502 },
+				);
+			}
 
 			if (new URL(response.url).pathname.includes("webblock.html")) {
-				return new Response("api.keyfu.cc returned webblock.html", {
+				return new Response(`${apiOrigin} returned webblock.html`, {
 					status: 502,
 					headers: {
 						"content-type": "text/plain;charset=UTF-8",
