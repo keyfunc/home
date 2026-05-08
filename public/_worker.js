@@ -11,10 +11,13 @@ export default {
 			target.protocol = "https:";
 			target.port = "";
 
-			const headers = new Headers(request.headers);
-			headers.delete("host");
-			headers.set("x-forwarded-host", url.host);
-			headers.set("x-forwarded-proto", url.protocol.replace(":", ""));
+			const headers = new Headers();
+			for (const name of ["accept", "authorization", "content-type"]) {
+				const value = request.headers.get(name);
+				if (value) {
+					headers.set(name, value);
+				}
+			}
 
 			const proxyRequest = new Request(target.toString(), {
 				method: request.method,
@@ -23,10 +26,21 @@ export default {
 					request.method === "GET" || request.method === "HEAD"
 						? undefined
 						: request.body,
-				redirect: "manual",
+				redirect: "follow",
 			});
 
-			return fetch(proxyRequest);
+			const response = await fetch(proxyRequest);
+
+			if (new URL(response.url).pathname.includes("webblock.html")) {
+				return new Response("api.keyfu.cc returned webblock.html", {
+					status: 502,
+					headers: {
+						"content-type": "text/plain;charset=UTF-8",
+					},
+				});
+			}
+
+			return response;
 		}
 
 		// 其他请求继续走静态资源
