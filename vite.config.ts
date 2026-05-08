@@ -24,7 +24,7 @@ export default defineConfig({
 	server: {
 		proxy: {
 			"/api": {
-				target: "https://api.keyfu.cc",
+				target: "http://106.52.180.97",
 				changeOrigin: true,
 			},
 		},
