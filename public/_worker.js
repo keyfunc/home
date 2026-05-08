@@ -14,20 +14,36 @@ export default {
 };
 
 async function proxyApiRequest(request, env, url) {
-	const apiOrigin = DEFAULT_API_ORIGIN;
+	const apiOrigin = env.API_ORIGIN || DEFAULT_API_ORIGIN;
 	const target = new URL(`${url.pathname}${url.search}`, apiOrigin);
 	const headers = getProxyHeaders(request.headers);
 
-	const response = await fetch(
-		new Request(target.toString(), {
-			method: request.method,
-			headers,
-			body: ["GET", "HEAD"].includes(request.method) ? undefined : request.body,
-			redirect: "follow",
-		}),
-	);
+	try {
+		const response = await fetch(
+			new Request(target.toString(), {
+				method: request.method,
+				headers,
+				body: ["GET", "HEAD"].includes(request.method)
+					? undefined
+					: request.body,
+				redirect: "follow",
+			}),
+		);
 
-	return response;
+		return withProxyHeaders(response, apiOrigin);
+	} catch (error) {
+		return Response.json(
+			{
+				message: "API proxy request failed",
+				target: target.toString(),
+				error: error instanceof Error ? error.message : String(error),
+			},
+			{
+				status: 502,
+				headers: getDebugHeaders(apiOrigin),
+			},
+		);
+	}
 }
 
 function getProxyHeaders(requestHeaders) {
@@ -41,4 +57,24 @@ function getProxyHeaders(requestHeaders) {
 	}
 
 	return headers;
+}
+
+function withProxyHeaders(response, apiOrigin) {
+	const headers = new Headers(response.headers);
+	for (const [name, value] of getDebugHeaders(apiOrigin)) {
+		headers.set(name, value);
+	}
+
+	return new Response(response.body, {
+		status: response.status,
+		statusText: response.statusText,
+		headers,
+	});
+}
+
+function getDebugHeaders(apiOrigin) {
+	return new Headers({
+		"x-api-origin": apiOrigin,
+		"x-api-proxy": "cf-pages-worker",
+	});
 }
