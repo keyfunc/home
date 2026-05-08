@@ -1,8 +1,9 @@
-import path from "node:path";
+import { fileURLToPath, URL } from "node:url";
+import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react-swc";
-import { defineConfig } from "vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -13,10 +14,19 @@ export default defineConfig({
 		}),
 		react(),
 		tailwindcss(),
+		babel({ presets: [reactCompilerPreset()] }),
 	],
 	resolve: {
 		alias: {
-			"@": path.resolve(__dirname, "src"),
+			"@": fileURLToPath(new URL("./src", import.meta.url)),
+		},
+	},
+	server: {
+		proxy: {
+			"/api": {
+				target: "http://127.0.0.1:8080",
+				changeOrigin: true,
+			},
 		},
 	},
 });
