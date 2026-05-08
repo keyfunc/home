@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, type Variants } from "framer-motion";
-import MenuNav from "@/components/MenuNav";
-import SocialLink from "@/components/SocialLink";
-import ThemeToggle from "@/components/ThemeToggle";
+import MenuNav from "@/component/MenuNav";
+import SocialLink from "@/component/SocialLink";
+import ThemeToggle from "@/component/ThemeToggle";
 
 export const Route = createFileRoute("/")({
 	component: RouteComponent,
