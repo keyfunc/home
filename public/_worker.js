@@ -9,8 +9,22 @@ export default {
 			// 后端接口地址
 			target.hostname = "api.keyfu.cc";
 			target.protocol = "https:";
+			target.port = "";
 
-			const proxyRequest = new Request(target.toString(), request);
+			const headers = new Headers(request.headers);
+			headers.delete("host");
+			headers.set("x-forwarded-host", url.host);
+			headers.set("x-forwarded-proto", url.protocol.replace(":", ""));
+
+			const proxyRequest = new Request(target.toString(), {
+				method: request.method,
+				headers,
+				body:
+					request.method === "GET" || request.method === "HEAD"
+						? undefined
+						: request.body,
+				redirect: "manual",
+			});
 
 			return fetch(proxyRequest);
 		}
