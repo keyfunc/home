@@ -14,7 +14,7 @@ export default {
 };
 
 async function proxyApiRequest(request, env, url) {
-	const apiOrigin = env.API_ORIGIN || DEFAULT_API_ORIGIN;
+	const apiOrigin = DEFAULT_API_ORIGIN;
 	const target = new URL(`${url.pathname}${url.search}`, apiOrigin);
 	const headers = getProxyHeaders(request.headers);
 
