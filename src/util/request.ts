@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const request = axios.create({
-	baseURL: "",
+	baseURL: "https://api.keyfu.cc",
 	timeout: 10000,
 });
 
