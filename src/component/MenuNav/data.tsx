@@ -1,6 +1,3 @@
-/** 菜单主题色 */
-export type MenuColor = "blue" | "purple";
-
 /** 菜单导航项配置 */
 interface MenuItem {
 	/** 图标地址 */
@@ -9,8 +6,6 @@ interface MenuItem {
 	label: string;
 	/** 跳转地址 */
 	url: string;
-	/** 菜单主题色 */
-	color: MenuColor;
 }
 
 /** 菜单导航列表 */
@@ -19,24 +14,20 @@ export const menuItems: MenuItem[] = [
 		iconUrl: "/svg/user.svg",
 		label: "简历",
 		url: "/resume",
-		color: "blue",
 	},
 	{
 		iconUrl: "/svg/list.svg",
 		label: "作品",
 		url: "/demo",
-		color: "purple",
 	},
 	{
 		iconUrl: "/svg/file.svg",
 		label: "笔记",
 		url: "https://notes.keyfu.cc",
-		color: "blue",
 	},
 	{
 		iconUrl: "/svg/setting.svg",
 		label: "工具",
 		url: "https://notes.keyfu.cc",
-		color: "purple",
 	},
 ];

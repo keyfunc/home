@@ -1,14 +1,7 @@
 /**
  * @description 社交链接组件
  */
-import { type SocialColor, socialLinks } from "./data";
-
-/** 社交标签主题样式 */
-const socialColorClassNames: Record<SocialColor, string> = {
-	blue: "border-blue-200/80 bg-blue-50/80 text-blue-700 shadow-blue-200/70 hover:border-blue-300 hover:bg-white hover:text-blue-800 dark:border-blue-400/15 dark:bg-blue-400/10 dark:text-blue-300 dark:shadow-none dark:hover:border-blue-300/30 dark:hover:bg-blue-400/15 dark:hover:text-blue-200",
-	purple:
-		"border-violet-200/80 bg-violet-50/80 text-violet-700 shadow-violet-200/70 hover:border-violet-300 hover:bg-white hover:text-violet-800 dark:border-violet-400/15 dark:bg-violet-400/10 dark:text-violet-300 dark:shadow-none dark:hover:border-violet-300/30 dark:hover:bg-violet-400/15 dark:hover:text-violet-200",
-};
+import { socialLinks } from "./data";
 
 function SocialLink() {
 	return (
@@ -45,7 +38,7 @@ function SocialLink() {
 						href={item.url}
 						target="_blank"
 						rel="noopener noreferrer"
-						className={`group relative isolate inline-flex h-8 items-center gap-1.5 overflow-hidden rounded-full border px-3 text-xs font-semibold shadow-sm backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-slate-900/20 sm:h-9 sm:gap-2 sm:px-3.5 sm:text-sm ${socialColorClassNames[item.color]}`}
+						className="group relative isolate inline-flex h-8 items-center gap-1.5 overflow-hidden rounded-full border border-neutral-200/80 bg-white/80 px-3 text-xs text-neutral-700 shadow-sm shadow-neutral-200/70 backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-neutral-300 hover:bg-white hover:text-black hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-slate-900/20 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300 dark:shadow-none dark:hover:border-white/20 dark:hover:bg-white/10 dark:hover:text-white sm:h-9 sm:gap-2 sm:px-3.5 sm:text-sm"
 					>
 						<span
 							className="absolute inset-x-2 top-0 h-px bg-white/80 dark:bg-white/20"
@@ -59,7 +52,7 @@ function SocialLink() {
 							}}
 							aria-hidden="true"
 						/>
-						<span>{item.label}</span>
+						<span className="text-sm">{item.label}</span>
 					</a>
 				))}
 			</div>

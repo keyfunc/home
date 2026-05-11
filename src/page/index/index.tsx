@@ -7,7 +7,7 @@ import ThemeToggle from "@/component/ThemeToggle";
 
 function Index() {
 	return (
-		<div className="flex min-h-dvh flex-col overflow-x-hidden bg-linear-to-br from-white via-blue-50/45 to-violet-50/55 dark:from-black dark:via-slate-950 dark:to-indigo-950/45">
+		<div className="flex min-h-dvh flex-col overflow-x-hidden bg-white dark:bg-black">
 			{/* 顶部：右上角固定主题切换 */}
 			<header className="flex h-14 w-full shrink-0 items-center justify-end px-4 sm:h-16 sm:px-6">
 				<ThemeToggle />
