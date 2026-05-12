@@ -1,13 +1,17 @@
 import { Link } from "@tanstack/react-router";
 
-/** 项目展示卡片信息 */
-export interface ProjectItem {
+/** 外部项目链接地址 */
+type ExternalProjectUrl = `http://${string}` | `https://${string}`;
+
+/** 站内项目链接地址 */
+type InternalProjectUrl = "/project/demo";
+
+/** 项目展示卡片基础信息 */
+interface BaseProjectItem {
 	/** 项目名称 */
 	title: string;
 	/** 项目简介 */
 	description: string;
-	/** 项目链接 */
-	url: string;
 	/** 项目图标地址 */
 	iconUrl: string;
 	/** 项目标签 */
@@ -18,6 +22,21 @@ export interface ProjectItem {
 	isDemo?: boolean;
 }
 
+/** 外部项目展示卡片信息 */
+type ExternalProjectItem = BaseProjectItem & {
+	/** 项目链接 */
+	url: ExternalProjectUrl;
+};
+
+/** 站内项目展示卡片信息 */
+type InternalProjectItem = BaseProjectItem & {
+	/** 项目链接 */
+	url: InternalProjectUrl;
+};
+
+/** 项目展示卡片信息 */
+export type ProjectItem = ExternalProjectItem | InternalProjectItem;
+
 interface ProjectCardProps {
 	/** 项目信息 */
 	project: ProjectItem;
@@ -26,12 +45,12 @@ interface ProjectCardProps {
 const cardClassName =
 	"group relative flex min-h-56 flex-col rounded-lg border border-neutral-200/80 bg-white/80 p-5 shadow-sm shadow-neutral-200/60 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-neutral-300 hover:bg-white hover:shadow-xl hover:shadow-neutral-200/80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-slate-900/20 dark:border-white/10 dark:bg-neutral-900/70 dark:shadow-none dark:hover:border-white/20 dark:hover:bg-neutral-900";
 
-/** 判断项目链接是否为外部网页 */
-const isExternalUrl = (url: string) => /^https?:\/\//.test(url);
+/** 判断项目是否为外部链接项目 */
+const isExternalProject = (
+	project: ProjectItem,
+): project is ExternalProjectItem => project.url.startsWith("http");
 
 function ProjectCard({ project }: ProjectCardProps) {
-	const isExternal = isExternalUrl(project.url);
-
 	const content = (
 		<>
 			<div className="flex items-start justify-between gap-4">
@@ -83,7 +102,7 @@ function ProjectCard({ project }: ProjectCardProps) {
 		</>
 	);
 
-	if (isExternal) {
+	if (isExternalProject(project)) {
 		return (
 			<a
 				href={project.url}

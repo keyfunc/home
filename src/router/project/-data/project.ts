@@ -1,4 +1,4 @@
-import type { ProjectItem } from "./component/ProjectCard";
+import type { ProjectItem } from "../-component/ProjectCard";
 
 /** 作品项目列表 */
 export const projects: ProjectItem[] = [
@@ -21,8 +21,8 @@ export const projects: ProjectItem[] = [
 	},
 	{
 		title: "todo list",
-		description: "客服端使用React，服务端采用 Golang net/http 标准库开发",
-		url: "/",
+		description: "客服端使用 React，服务端采用 Golang net/http 标准库开发",
+		url: "/project/demo",
 		iconUrl: "/svg/todo.svg",
 		tags: [
 			"React",
