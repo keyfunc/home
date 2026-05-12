@@ -18,7 +18,7 @@ export const menuItems: MenuItem[] = [
 	{
 		iconUrl: "/svg/list.svg",
 		label: "作品",
-		url: "/demo",
+		url: "/project",
 	},
 	{
 		iconUrl: "/svg/file.svg",
