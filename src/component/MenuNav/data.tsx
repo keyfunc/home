@@ -23,11 +23,11 @@ export const menuItems: MenuItem[] = [
 	{
 		iconUrl: "/svg/file.svg",
 		label: "笔记",
-		url: "https://notes.keyfu.cc",
+		url: "https://wiki.keyfu.cc",
 	},
 	{
 		iconUrl: "/svg/setting.svg",
 		label: "工具",
-		url: "https://notes.keyfu.cc",
+		url: "https://wiki.keyfu.cc",
 	},
 ];

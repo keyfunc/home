@@ -13,7 +13,7 @@ import { Route as ResumeRouteImport } from './router/resume'
 import { Route as ProjectRouteRouteImport } from './router/project/route'
 import { Route as IndexRouteImport } from './router/index'
 import { Route as ProjectIndexRouteImport } from './router/project/index'
-import { Route as ProjectDemoRouteImport } from './router/project/demo'
+import { Route as ProjectTodoIndexRouteImport } from './router/project/todo/index'
 
 const ResumeRoute = ResumeRouteImport.update({
   id: '/resume',
@@ -35,9 +35,9 @@ const ProjectIndexRoute = ProjectIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProjectRouteRoute,
 } as any)
-const ProjectDemoRoute = ProjectDemoRouteImport.update({
-  id: '/demo',
-  path: '/demo',
+const ProjectTodoIndexRoute = ProjectTodoIndexRouteImport.update({
+  id: '/todo/',
+  path: '/todo/',
   getParentRoute: () => ProjectRouteRoute,
 } as any)
 
@@ -45,29 +45,29 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/project': typeof ProjectRouteRouteWithChildren
   '/resume': typeof ResumeRoute
-  '/project/demo': typeof ProjectDemoRoute
   '/project/': typeof ProjectIndexRoute
+  '/project/todo/': typeof ProjectTodoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/resume': typeof ResumeRoute
-  '/project/demo': typeof ProjectDemoRoute
   '/project': typeof ProjectIndexRoute
+  '/project/todo': typeof ProjectTodoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/project': typeof ProjectRouteRouteWithChildren
   '/resume': typeof ResumeRoute
-  '/project/demo': typeof ProjectDemoRoute
   '/project/': typeof ProjectIndexRoute
+  '/project/todo/': typeof ProjectTodoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/project' | '/resume' | '/project/demo' | '/project/'
+  fullPaths: '/' | '/project' | '/resume' | '/project/' | '/project/todo/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/resume' | '/project/demo' | '/project'
-  id: '__root__' | '/' | '/project' | '/resume' | '/project/demo' | '/project/'
+  to: '/' | '/resume' | '/project' | '/project/todo'
+  id: '__root__' | '/' | '/project' | '/resume' | '/project/' | '/project/todo/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,24 +106,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectIndexRouteImport
       parentRoute: typeof ProjectRouteRoute
     }
-    '/project/demo': {
-      id: '/project/demo'
-      path: '/demo'
-      fullPath: '/project/demo'
-      preLoaderRoute: typeof ProjectDemoRouteImport
+    '/project/todo/': {
+      id: '/project/todo/'
+      path: '/todo'
+      fullPath: '/project/todo/'
+      preLoaderRoute: typeof ProjectTodoIndexRouteImport
       parentRoute: typeof ProjectRouteRoute
     }
   }
 }
 
 interface ProjectRouteRouteChildren {
-  ProjectDemoRoute: typeof ProjectDemoRoute
   ProjectIndexRoute: typeof ProjectIndexRoute
+  ProjectTodoIndexRoute: typeof ProjectTodoIndexRoute
 }
 
 const ProjectRouteRouteChildren: ProjectRouteRouteChildren = {
-  ProjectDemoRoute: ProjectDemoRoute,
   ProjectIndexRoute: ProjectIndexRoute,
+  ProjectTodoIndexRoute: ProjectTodoIndexRoute,
 }
 
 const ProjectRouteRouteWithChildren = ProjectRouteRoute._addFileChildren(

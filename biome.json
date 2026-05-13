@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**", "!src/router/router.gen.ts"]
+		"includes": ["**", "!src/router.gen.ts"]
 	},
 	"formatter": {
 		"enabled": true,
