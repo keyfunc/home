@@ -3,7 +3,7 @@ import { defineConfig } from "orval";
 export default defineConfig({
 	backend: {
 		input: {
-			target: "http://127.0.0.1:8080/openapi.json",
+			target: "https://api.keyfu.cc/openapi.json",
 		},
 		output: {
 			mode: "tags-split",

@@ -60,20 +60,50 @@ interface DeleteTodoInput {
 	todo: Todo;
 }
 
+/** Todo 列表查询配置 */
+interface TodoListOptions {
+	/** 是否启用 Todo 列表查询 */
+	enabled: boolean;
+}
+
 /** 判断响应数据是否为 Todo 分页数据 */
 const isTodoPageData = (data: unknown): data is TodoPageData => {
 	return typeof data === "object" && data !== null && "list" in data;
+};
+
+/** 判断响应数据是否为 Todo 数据 */
+const isTodoData = (data: unknown): data is Todo => {
+	return (
+		typeof data === "object" &&
+		data !== null &&
+		"id" in data &&
+		"title" in data &&
+		"description" in data
+	);
+};
+
+/** 判断响应数据是否为字符串数据 */
+const isStringData = (data: unknown): data is string => {
+	return typeof data === "string";
+};
+
+/** 读取接口成功响应数据 */
+const getResponseData = <TData>(
+	response: { message: string; data: unknown },
+	isData: (data: unknown) => data is TData,
+): TData => {
+	if (!isData(response.data)) {
+		throw new Error(response.message);
+	}
+
+	return response.data;
 };
 
 /** 查询 Todo 分页数据 */
 const queryTodoPage = async (): Promise<TodoPageData> => {
 	const response = await listTodos(todoListParams);
 
-	if (!isTodoPageData(response.data)) {
-		throw new Error(response.message);
-	}
-
-	return response.data;
+	return getResponseData(response, isTodoPageData);
 };
 
 /** 组装新增 Todo 请求体 */
@@ -97,11 +127,56 @@ export const isTodoDone = (todo: Todo) => {
 	return todo.status === TODO_DONE_STATUS;
 };
 
+/** 新增 Todo 数据 */
+const createTodoItem = async (
+	title: string,
+	description: string,
+): Promise<Todo> => {
+	const response = await createTodo(createTodoPayload(title, description));
+
+	return getResponseData(response, isTodoData);
+};
+
+/** 更新 Todo 数据 */
+const updateTodoItem = async ({
+	todo,
+	title,
+	description,
+}: UpdateTodoInput): Promise<Todo> => {
+	const response = await updateTodo(todo.id, {
+		title,
+		description,
+		status: getTodoUpdateStatus(todo),
+	});
+
+	return getResponseData(response, isTodoData);
+};
+
+/** 删除 Todo 数据 */
+const deleteTodoItem = async ({ todo }: DeleteTodoInput): Promise<string> => {
+	const response = await deleteTodo(todo.id);
+
+	return getResponseData(response, isStringData);
+};
+
+/** 切换 Todo 完成状态 */
+const toggleTodoItem = async ({ todo }: ToggleTodoInput): Promise<Todo> => {
+	const nextStatus = isTodoDone(todo) ? TODO_PENDING_STATUS : TODO_DONE_STATUS;
+	const response = await updateTodo(todo.id, {
+		title: todo.title,
+		description: todo.description,
+		status: nextStatus,
+	});
+
+	return getResponseData(response, isTodoData);
+};
+
 /** 查询 Todo 列表 */
-export const useTodoList = () => {
+export const useTodoList = ({ enabled }: TodoListOptions) => {
 	return useQuery({
 		queryKey: todoQueryKeys.list,
 		queryFn: queryTodoPage,
+		enabled,
 	});
 };
 
@@ -111,7 +186,7 @@ export const useCreateTodoItem = () => {
 
 	return useMutation({
 		mutationFn: ({ title, description }: CreateTodoInput) =>
-			createTodo(createTodoPayload(title, description)),
+			createTodoItem(title, description),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: todoQueryKeys.all });
 		},
@@ -123,12 +198,7 @@ export const useUpdateTodoItem = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: ({ todo, title, description }: UpdateTodoInput) =>
-			updateTodo(todo.id, {
-				title,
-				description,
-				status: getTodoUpdateStatus(todo),
-			}),
+		mutationFn: updateTodoItem,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: todoQueryKeys.all });
 		},
@@ -140,7 +210,7 @@ export const useDeleteTodoItem = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: ({ todo }: DeleteTodoInput) => deleteTodo(todo.id),
+		mutationFn: deleteTodoItem,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: todoQueryKeys.all });
 		},
@@ -152,17 +222,7 @@ export const useToggleTodoItem = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: ({ todo }: ToggleTodoInput) => {
-			const nextStatus = isTodoDone(todo)
-				? TODO_PENDING_STATUS
-				: TODO_DONE_STATUS;
-
-			return updateTodo(todo.id, {
-				title: todo.title,
-				description: todo.description,
-				status: nextStatus,
-			});
-		},
+		mutationFn: toggleTodoItem,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: todoQueryKeys.all });
 		},

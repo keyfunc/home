@@ -7,6 +7,7 @@
  */
 
 export interface ErrorResponse {
+	/** Application-level status code written in the JSON body, for example 400 or 401. */
 	code: number;
 	message: string;
 	/** Always null for response.Fail. */
