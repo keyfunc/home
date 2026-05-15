@@ -15,28 +15,16 @@ function TodoPage() {
 	const [open, setOpen] = useState(false);
 
 	return (
-		<div className="h-full p-5 flex flex-col sm:flex-row gap-5">
-			<div className="hidden sm:block shrink-0">
+		<div className="h-full min-h-0 grid grid-cols-1 md:grid-cols-[260px_1fr] border border-gray-200 rounded-md shadow-3xl">
+			{/* 移动设备上只展示中间区域，左侧的菜单通过抽屉进行存放 */}
+			<div className="hidden md:block md:border-r md:border-r-gray-200">
 				<TodoNav />
 			</div>
-			<div className="w-full flex flex-col gap-5">
-				<div className="flex items-center gap-10">
-					<img
-						src="/svg/menu.svg"
-						alt="todo-menu"
-						className="w-6 h-6 sm:hidden"
-						onClick={() => setOpen(true)}
-					/>
-					<div className="flex gap-3">
-						<span>今天</span>
-						<span>2026-5-14 星期四</span>
-					</div>
-				</div>
-				<div className="flex-1">
-					<TodoMain />
-				</div>
+			<div className="h-full min-h-0">
+				<TodoMain title="标题" onAddClick={() => setOpen(true)} />
 			</div>
 
+			{/* 移动设备上，抽屉存放菜单 */}
 			<Drawer width="50vw" open={open} onClose={() => setOpen(false)}>
 				<TodoNav />
 			</Drawer>

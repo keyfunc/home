@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import type { FormEvent } from "react";
 import { useState } from "react";
 import type { Todo } from "@/service/generated/model";
-import { isTodoDone } from "../../-hook/useTodos";
 
 /** Todo 行内更新数据 */
 interface TodoRowUpdateInput {
@@ -16,13 +15,13 @@ interface TodoRowProps {
 	/** 当前 Todo */
 	todo: Todo;
 	/** 是否禁用操作 */
-	disabled: boolean;
+	disabled?: boolean;
 	/** 切换完成状态 */
-	onToggle: (todo: Todo) => void;
+	onToggle?: (todo: Todo) => void;
 	/** 删除 Todo */
-	onDelete: (todo: Todo) => void;
+	onDelete?: (todo: Todo) => void;
 	/** 更新 Todo 内容 */
-	onUpdate: (
+	onUpdate?: (
 		todo: Todo,
 		input: TodoRowUpdateInput,
 		onSuccess: () => void,
@@ -36,7 +35,6 @@ function TodoRow({
 	onDelete,
 	onUpdate,
 }: TodoRowProps) {
-	const done = isTodoDone(todo);
 	const [isEditing, setIsEditing] = useState(false);
 	const [title, setTitle] = useState(todo.title);
 	const [description, setDescription] = useState(todo.description);
@@ -61,22 +59,22 @@ function TodoRow({
 			return;
 		}
 
-		onUpdate(
-			todo,
-			{
-				title: trimmedTitle,
-				description: trimmedDescription,
-			},
-			() => {
-				setIsEditing(false);
-			},
-		);
+		// onUpdate(
+		// 	todo,
+		// 	{
+		// 		title: trimmedTitle,
+		// 		description: trimmedDescription,
+		// 	},
+		// 	() => {
+		// 		setIsEditing(false);
+		// 	},
+		// );
 	};
 
 	if (isEditing) {
 		return (
 			<form
-				className="flex flex-col gap-3 rounded-lg border border-neutral-200 bg-white px-4 py-3 shadow-sm shadow-neutral-200/60 transition dark:border-white/10 dark:bg-neutral-900/70 dark:shadow-none"
+				className="flex flex-col gap-3 shrink-0 rounded-lg border border-neutral-200 bg-white px-4 py-3 shadow-sm shadow-neutral-200/60 transition dark:border-white/10 dark:bg-neutral-900/70 dark:shadow-none"
 				onSubmit={handleSubmit}
 			>
 				<div className="grid gap-3 sm:grid-cols-2">
@@ -137,20 +135,20 @@ function TodoRow({
 			<button
 				type="button"
 				disabled={disabled}
-				aria-label={done ? "标记为未完成" : "标记为已完成"}
+				aria-label={true ? "标记为未完成" : "标记为已完成"}
 				className={[
 					"mt-0.5 flex size-5 shrink-0 items-center justify-center rounded border transition sm:size-6",
 					"focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900 disabled:cursor-not-allowed dark:focus-visible:outline-white",
-					done
+					true
 						? "border-neutral-950 bg-neutral-950 shadow-sm dark:border-white dark:bg-white dark:shadow-none"
 						: "border-neutral-300 bg-white dark:border-neutral-600 dark:bg-neutral-900",
 				].join(" ")}
-				onClick={() => onToggle(todo)}
+				// onClick={() => onToggle(todo)}
 			>
 				<span
 					className={[
 						"h-1.5 w-3 -rotate-45 border-b-2 border-l-2 border-white transition-opacity sm:h-2 sm:w-3.5 dark:border-neutral-950",
-						done ? "opacity-100" : "opacity-0",
+						true ? "opacity-100" : "opacity-0",
 					].join(" ")}
 				/>
 			</button>
@@ -159,7 +157,7 @@ function TodoRow({
 				<p
 					className={[
 						"truncate text-sm leading-6 transition",
-						done
+						true
 							? "text-neutral-400 line-through decoration-neutral-400 decoration-2"
 							: "text-neutral-950 dark:text-white",
 					].join(" ")}
@@ -189,7 +187,7 @@ function TodoRow({
 					type="button"
 					disabled={disabled}
 					className="h-8 rounded-lg bg-black px-3 text-sm font-medium text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
-					onClick={() => onDelete(todo)}
+					// onClick={() => onDelete(todo)}
 				>
 					删除
 				</button>

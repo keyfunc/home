@@ -5,7 +5,7 @@ function ProjectBreadcrumb() {
 	const router = useRouter();
 
 	return (
-		<header>
+		<header className="h-full flex items-center">
 			<button
 				type="button"
 				onClick={() => router.history.back()}

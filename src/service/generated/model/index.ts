@@ -7,7 +7,6 @@
  */
 
 export * from "./createTodoReq";
-export * from "./errorResponse";
 export * from "./listTodosParams";
 export * from "./openApiDocument";
 export * from "./openApiDocumentInfo";

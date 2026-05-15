@@ -30,7 +30,6 @@ export default defineConfig({
 				},
 				query: {
 					version: 5,
-					useQuery: true,
 					useMutation: true,
 					shouldExportQueryKey: true,
 				},

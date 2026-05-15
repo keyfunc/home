@@ -4,5 +4,7 @@
 	"editor.codeActionsOnSave": {
 		"source.organizeImports.biome": "explicit"
 	},
-	"js/ts.tsdk.path": "node_modules/typescript/lib"
+	"js/ts.tsdk.path": "node_modules/typescript/lib",
+	"tailwindcss-intellisense.trace.server": "messages",
+	"biome.lsp.trace.server": "messages"
 }
