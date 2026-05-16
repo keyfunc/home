@@ -32,6 +32,7 @@ function TodoAdd(props: TodoAddProps) {
 						type="text"
 						value={state.description}
 						onChange={(event) => setStates({ description: event.target.value })}
+						onKeyDown={(event) => event.key === "Enter" && handleSubmit}
 						placeholder="请输入描述..."
 						className="h-11 min-w-0 flex-1 rounded-lg border border-neutral-300 bg-white px-3 text-sm text-neutral-950 outline-none transition placeholder:text-sm placeholder:text-neutral-400 focus:border-neutral-950 focus:ring-2 focus:ring-neutral-200 dark:border-neutral-700 dark:bg-neutral-950 dark:text-white dark:placeholder:text-neutral-500 dark:focus:border-white dark:focus:ring-white/10"
 					/>

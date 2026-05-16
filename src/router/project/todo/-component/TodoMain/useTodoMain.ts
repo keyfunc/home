@@ -25,7 +25,6 @@ export function useTodoMain(props: TodpMainProps) {
 	} = useListTodos(queryState, {
 		query: { enabled: !!token },
 	});
-	// const todoList = [...data?.data.list, ...data?.data.list] || [];
 	const todoList = data?.data.list || [];
 
 	const handleAddModalOpen = () => {

@@ -75,18 +75,10 @@ function TodoMain(props: TodpMainProps) {
 					</div>
 				)}
 
-				{todoList.map((todo) => (
-					<TodoRow
-						key={todo.id}
-						todo={todo}
-						// disabled={actionDisabled}
-						// onDelete={(nextTodo) => deleteTodo.mutate({ todo: nextTodo })}
-						// onToggle={(nextTodo) => toggleTodo.mutate({ todo: nextTodo })}
-						// onUpdate={(nextTodo, input, onSuccess) =>
-						// 	updateTodo.mutate({ todo: nextTodo, ...input }, { onSuccess })
-						// }
-					/>
-				))}
+				{!isFetching &&
+					isSuccess &&
+					todoList.length !== 0 &&
+					todoList.map((todo) => <TodoRow key={todo.id} todo={todo} />)}
 			</div>
 
 			{/* todo 新增 form modal */}

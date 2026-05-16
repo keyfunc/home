@@ -27,10 +27,17 @@ export function useTodoKey(props: TodoKeyProps) {
 		setStates({ apiKey: v });
 	};
 
+	const handleKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === "Enter") {
+			handleSubmit();
+		}
+	};
+
 	return {
 		...state,
 		setStates,
 		handleSubmit,
 		handleInputChange,
+		handleKeydown,
 	};
 }
