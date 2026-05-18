@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 type ExternalProjectUrl = `http://${string}` | `https://${string}`;
 
 /** 站内项目链接地址 */
-type InternalProjectUrl = "/project/todo";
+type InternalProjectUrl = "/project/todo" | "/project/css-layout";
 
 /** 项目展示卡片基础信息 */
 interface BaseProjectItem {

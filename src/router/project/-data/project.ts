@@ -43,4 +43,12 @@ export const projects: ProjectItem[] = [
 		status: "已上线",
 		isDemo: true,
 	},
+	{
+		title: "css layout",
+		description: "Web 常用布局可视化，方便理解 Flex、Grid 相关属性",
+		url: "/project/css-layout",
+		iconUrl: "/svg/css.svg",
+		tags: ["CSS", "Layout", "Flex", "Grid"],
+		status: "迭代中",
+	},
 ];
