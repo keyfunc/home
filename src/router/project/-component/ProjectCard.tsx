@@ -43,7 +43,7 @@ interface ProjectCardProps {
 }
 
 const cardClassName =
-	"group relative flex min-h-56 flex-col rounded-lg border border-neutral-200/80 bg-white/80 p-5 shadow-sm shadow-neutral-200/60 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-neutral-300 hover:bg-white hover:shadow-xl hover:shadow-neutral-200/80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-slate-900/20 dark:border-white/10 dark:bg-neutral-900/70 dark:shadow-none dark:hover:border-white/20 dark:hover:bg-neutral-900";
+	"group relative flex h-70 flex-col rounded-lg border border-neutral-200/80 bg-white/80 p-5 shadow-sm shadow-neutral-200/60 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-neutral-300 hover:bg-white hover:shadow-xl hover:shadow-neutral-200/80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-slate-900/20 dark:border-white/10 dark:bg-neutral-900/70 dark:shadow-none dark:hover:border-white/20 dark:hover:bg-neutral-900";
 
 /** 判断项目是否为外部链接项目 */
 const isExternalProject = (
