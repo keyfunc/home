@@ -65,3 +65,15 @@ export function toast(message: string, duration = 2000) {
 		}, 200);
 	}, duration);
 }
+
+// 将 CSS 样式对象转换为 React 的内联样式对象
+export function cssToReactStyle(
+	css: Record<string, string | number>,
+): React.CSSProperties {
+	return Object.fromEntries(
+		Object.entries(css).map(([key, value]) => [
+			key.replace(/-([a-z])/g, (_, char: string) => char.toUpperCase()),
+			value,
+		]),
+	) as React.CSSProperties;
+}
